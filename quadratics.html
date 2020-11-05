@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+/***************************************************
+Author:  Mr. Carriere
+Short program for verifying work on quadratics.
+****************************************************/
+//------------------------------Global Variables and initializations
+var canvas = document.createElement('canvas');
+canvas.width = 800;
+canvas.height = 501;
+var context = canvas.getContext('2d');
+document.body.appendChild(canvas);
+context.font="12px Times New Roman"
+var a= prompt("Please enter 'a' as in y =ax^2+bx+c",1);
+var b= prompt("Please enter 'b' as in y =ax^2+bx+c",1);
+var c= prompt("Please enter 'c' as in y =ax^2+bx+c",1);
+var y;
+var x,m,n;
+var started=false;
+var textLine;
+//-------------------------------Functions
+function standardEquation(a,b,c){
+	var textLine="The quadratic y = ";
+	if(a==1){
+		textLine+="x^2 ";
+	}
+	else{
+		textLine+=a+"x^2 ";
+	}
+	if(b<0){
+		textLine+=b+"x ";
+	}
+	else{
+		textLine+=" + "+b+"x ";
+	}
+	if(c<0){
+		textLine+=c+" has:";
+	}
+	else{
+		textLine+=" + "+c+" has:"
+	}
+	return textLine;
+}
+function factoredEquation(a,m,n){
+	textLine="Has factored form : y = ";
+	if(a==1){
+		textLine+="(x ";
+	}
+	else{
+		textLine+=a+"(x ";
+	}
+	if(m<0){
+		textLine+=m+")(x ";
+	}
+	else{
+		textLine+="+ "+m+")(x ";
+	}
+	if(n<0){
+		textLine+=n+")";
+	}
+	else{
+		textLine+="+ "+n+")";
+	}
+	return textLine;
+}
+function vertexEquation(a,p,q){
+	textLine="Has vertex form : y = "
+	if(a==1){
+		textLine+="(x ";
+		}
+	else{
+		textLine+=a+"(x ";
+	}
+	if(p<0){
+		textLine+=p+")^2 ";
+	}
+	else{
+		textLine+="+ "+p+")^2 ";
+	}
+	if(q<0){
+		textLine+=q;
+	}
+	else{
+		textLine+="+ "+q;
+	}
+	return textLine;
+}
+
+//-------------------------------Main Program
+context.font="24px Times New Roman";
+context.fillText("Quadratic equations and graph",0,24);
+context.font="12px Times New Roman"
+context.fillText(standardEquation(a,b,c),0,48);
+if (b**2-4*a*c<0){
+	context.fillText("No real roots",0,72);
+}
+else{
+	m=(-b-Math.sqrt(b**2-4*a*c))/(2*a);
+	n=(-b+Math.sqrt(b**2-4*a*c))/(2*a);
+	p=-b/2/a;
+	q=(0-b**2+4*a*c)/(4*a);
+	context.fillText(vertexEquation(a,p,q),0,60);
+	context.fillText("Has roots at ("+m+", 0),",0,72);
+	context.fillText("Has roots at ("+n+", 0),",0,84);
+	context.fillText(factoredEquation(a,m,n),0,96);
+}
+//--------------------------------set up a graph
+context.fillStyle="black";
+context.fillRect(0,99,402,402);//black square to make outline
+context.fillStyle="white";
+context.fillRect(1,100,400,400);//smaller white cover, leaving outline
+context.fillStyle="black";
+context.fillRect(1,300,400,1);//x-axis
+context.fillRect(200,100,1,400);//y-axis
+for(ticks=-10;ticks<11;ticks++){
+	context.fillRect(200+20*ticks,300,1,10);//x-axis-scale
+	context.fillRect(195,300+20*ticks,10,1);//y-axis-scale	
+}
+context.strokeStyle="red";
+context.beginPath();
+c=Math.round(c);//------------JS wants c to be a string--had to tell it adding c means addition
+for(var x=-10;x<10;x+=0.1){
+	n=x;
+	y=eval((a)*Math.pow(x,2)+b*x+c);
+	if(y>-10 && y<10){
+		if(!started){
+			context.moveTo(200+20*x, eval(300-20*y));
+			started=true;
+			}
+		else{
+			context.lineTo(200+20*x, eval(300-20*y))
+		}
+	}
+}
+context.stroke();
+
+</script>
+</body>
+</html>
